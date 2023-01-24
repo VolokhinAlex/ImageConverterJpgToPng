@@ -2,6 +2,7 @@ package com.volokhinaleksey.imageconverter
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
 import io.reactivex.rxjava3.core.Single
 import java.io.FileOutputStream
 
@@ -15,7 +16,7 @@ class MainRepositoryImpl : MainRepository {
         val imageName = pathImage[pathImage.size - 1]
             .split(".")[0]
         val outPutStream =
-            FileOutputStream("${App.appInstance.applicationContext.cacheDir}/$imageName.png")
+            FileOutputStream("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)}/$imageName.png")
         if (data.bitmap.compress(Bitmap.CompressFormat.PNG, 100, outPutStream)) {
             it.onSuccess(BitmapFactory.decodeFile(data.path))
         } else {
