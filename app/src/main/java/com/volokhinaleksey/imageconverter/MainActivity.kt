@@ -70,7 +70,10 @@ class MainActivity : MvpAppCompatActivity(), MainView {
                     .setMessage("You can still cancel the operation")
                     .setPositiveButton("Continue") { dialog, _ ->
                         val bitmap = BitmapFactory.decodeFile(filePath)
-                        presenter._model = ImageData(filePath, bitmap)
+                        presenter.model =
+                            ImageData(
+                                filePath, bitmap
+                            )
                         presenter.convertJpgToPng()
                         dialog.dismiss()
                     }

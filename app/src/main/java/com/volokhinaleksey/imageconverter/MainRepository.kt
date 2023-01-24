@@ -2,7 +2,6 @@ package com.volokhinaleksey.imageconverter
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import io.reactivex.rxjava3.core.Single
 import java.io.FileOutputStream
 
@@ -12,9 +11,12 @@ interface MainRepository {
 
 class MainRepositoryImpl : MainRepository {
     override fun convertImageToPng(data: ImageData): Single<Bitmap> = Single.create {
-        val outPutStream = FileOutputStream(data.path)
+        val pathImage = data.path.split("/")
+        val imageName = pathImage[pathImage.size - 1]
+            .split(".")[0]
+        val outPutStream =
+            FileOutputStream("${App.appInstance.applicationContext.cacheDir}/$imageName.png")
         if (data.bitmap.compress(Bitmap.CompressFormat.PNG, 100, outPutStream)) {
-            Log.e("", data.path)
             it.onSuccess(BitmapFactory.decodeFile(data.path))
         } else {
             it.onError(Exception("Conversion problem"))

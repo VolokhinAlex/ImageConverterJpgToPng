@@ -9,8 +9,7 @@ import java.util.concurrent.TimeUnit
 class MainPresenter(private val repository: MainRepository) :
     MvpPresenter<MainView>() {
 
-    var _model: ImageData? = null
-    private val model: ImageData? get() = _model
+    var model: ImageData? = null
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -21,10 +20,10 @@ class MainPresenter(private val repository: MainRepository) :
                     .delay(3, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        viewState.onSuccess(it)
-                    }, {
-                        viewState.onError(it)
+                    .subscribe({ data ->
+                        viewState.onSuccess(data)
+                    }, { error ->
+                        viewState.onError(error)
                     })
             )
         }
